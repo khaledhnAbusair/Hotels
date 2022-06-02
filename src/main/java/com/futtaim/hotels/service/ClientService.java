@@ -1,4 +1,4 @@
-package com.futtaim.hotels;
+package com.futtaim.hotels.service;
 
 import com.futtaim.hotels.client.BestHotelClient;
 import com.futtaim.hotels.client.CrazyHotelClient;
@@ -9,8 +9,7 @@ import com.futtaim.hotels.model.CrazyHotelResponse;
 import com.futtaim.hotels.model.HotelResponse;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.Period;
+import java.time.*;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
@@ -29,19 +28,19 @@ public class ClientService {
     }
 
 
-    public List<HotelResponse> execute(LocalDate fromDate, LocalDate toDate, String city, int numberOfAdults){
+    public List<HotelResponse> execute(LocalDate fromDate, LocalDate toDate, String city, int numberOfAdults) {
         List<BestHotelResponse> bestHotelResponses = bestHotelClient.get(fromDate, toDate, city, numberOfAdults);
-        List<CrazyHotelResponse> crazyHotelResponses = crazyHotelClient.get(fromDate, toDate, city, numberOfAdults);
-        // TODO: 02/06/2022 check date if is null
+        List<CrazyHotelResponse> crazyHotelResponses = crazyHotelClient.get(fromDate.atStartOfDay().toInstant(ZoneOffset.UTC), toDate.atStartOfDay().toInstant(ZoneOffset.UTC), city, numberOfAdults);
+
         List<HotelResponse> list = bestHotelResponses.stream()
                 .map(response -> BestHotelMapper.getHotelResponse(response, Period.between(fromDate, toDate).getDays()))
                 .collect(Collectors.toList());
 
-        List<HotelResponse> collect = crazyHotelResponses.stream()
-                .map(CrazyHotelMapper::getHotelResponse).collect(Collectors.toList());
+        List<HotelResponse> collect = crazyHotelResponses.stream().map(CrazyHotelMapper::getHotelResponse).collect(Collectors.toList());
 
         return Stream.of(list, collect)
                 .flatMap(Collection::stream)
-                 .sorted(Comparator.comparingDouble(HotelResponse::getRate)).collect(Collectors.toList());
+                .sorted(Comparator.comparingDouble(HotelResponse::getRate).reversed())
+                .collect(Collectors.toList());
     }
 }

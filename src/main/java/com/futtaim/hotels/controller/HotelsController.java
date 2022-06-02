@@ -1,6 +1,7 @@
 package com.futtaim.hotels.controller;
 
-import com.futtaim.hotels.ClientService;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.futtaim.hotels.service.ClientService;
 import com.futtaim.hotels.model.HotelResponse;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
@@ -23,10 +24,12 @@ public class HotelsController {
     }
 
     @GetMapping("/AvailableHotel")
-    public List<HotelResponse> get(@RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
-                                   @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
-                                   @RequestParam(required = false) @Pattern(regexp = "^[A-Z]{3}" ,message = "Invalid city IATA code") String city,
+    public List<HotelResponse> get(@RequestParam @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+                                   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
+                                   @RequestParam @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+                                   @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
+                                   @RequestParam(required = false) @Pattern(regexp = "^[A-Z]{3}", message = "Invalid city IATA code") String city,
                                    @RequestParam(required = false) int numberOfAdults) {
-        return clientService.execute(fromDate,toDate,city,numberOfAdults);
+        return clientService.execute(fromDate, toDate, city, numberOfAdults);
     }
 }

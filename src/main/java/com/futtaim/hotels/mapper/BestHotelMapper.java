@@ -11,20 +11,14 @@ import java.util.stream.Stream;
 
 public class BestHotelMapper {
 
-public static HotelResponse getHotelResponse(BestHotelResponse response,int days){
-    HotelResponse hotelResponse = new HotelResponse();
-    hotelResponse.setProvider(Providers.BEST_HOTEL.getProviderName());
-    hotelResponse.setHotelName(response.getHotel());
-    hotelResponse.setRate(response.getHotelRate());
-    hotelResponse.setAmenities(Stream.of(response.getAmenities().split(",")).collect(Collectors.toList()));
-    hotelResponse.setFare(response.getHotelFare() / days);
-
-
-    BigDecimal bigDecimal = new BigDecimal(response.getHotelFare() / days);
-    String format = new DecimalFormat("0.00").format(bigDecimal);
-    hotelResponse.setFare(Double.parseDouble(format));
-    return hotelResponse;
-}
-
-
+    public static HotelResponse getHotelResponse(BestHotelResponse response, int days) {
+        HotelResponse hotelResponse = new HotelResponse();
+        hotelResponse.setProvider(Providers.BEST_HOTEL.getProviderName());
+        hotelResponse.setHotelName(response.getHotel());
+        hotelResponse.setRate(response.getHotelRate());
+        hotelResponse.setAmenities(Stream.of(response.getRoomAmenities().split(",")).collect(Collectors.toList()));
+        hotelResponse.setFare(response.getHotelFare() / days);
+        hotelResponse.setFare(Double.parseDouble(new DecimalFormat("0.00").format(new BigDecimal(response.getHotelFare() / days))));
+        return hotelResponse;
+    }
 }

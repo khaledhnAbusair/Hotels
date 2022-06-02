@@ -12,5 +12,5 @@ public class BestHotelResponse {
     private String hotel;
     private double hotelFare;
     private double hotelRate;
-    private String amenities;
+    private String roomAmenities;
 }
