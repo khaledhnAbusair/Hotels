@@ -4,7 +4,6 @@ import com.futtaim.hotels.client.BestHotelClient;
 import com.futtaim.hotels.client.CrazyHotelClient;
 import com.futtaim.hotels.mapper.BestHotelMapper;
 import com.futtaim.hotels.mapper.CrazyHotelMapper;
-import com.futtaim.hotels.model.BestHotelResponse;
 import com.futtaim.hotels.model.CrazyHotelResponse;
 import com.futtaim.hotels.model.HotelResponse;
 import org.springframework.stereotype.Service;
@@ -28,19 +27,26 @@ public class ClientService {
     }
 
 
-    public List<HotelResponse> execute(LocalDate fromDate, LocalDate toDate, String city, int numberOfAdults) {
-        List<BestHotelResponse> bestHotelResponses = bestHotelClient.get(fromDate, toDate, city, numberOfAdults);
-        List<CrazyHotelResponse> crazyHotelResponses = crazyHotelClient.get(fromDate.atStartOfDay().toInstant(ZoneOffset.UTC), toDate.atStartOfDay().toInstant(ZoneOffset.UTC), city, numberOfAdults);
-
-        List<HotelResponse> list = bestHotelResponses.stream()
-                .map(response -> BestHotelMapper.getHotelResponse(response, Period.between(fromDate, toDate).getDays()))
-                .collect(Collectors.toList());
-
-        List<HotelResponse> collect = crazyHotelResponses.stream().map(CrazyHotelMapper::getHotelResponse).collect(Collectors.toList());
-
-        return Stream.of(list, collect)
+    public List<HotelResponse> execute(LocalDate fromDate, LocalDate toDate, String city, Integer numberOfAdults) {
+        return Stream.of(bestClient(fromDate, toDate, city, numberOfAdults),
+                        crazyClient(fromDate, toDate, city, numberOfAdults))
                 .flatMap(Collection::stream)
                 .sorted(Comparator.comparingDouble(HotelResponse::getRate).reversed())
                 .collect(Collectors.toList());
     }
+
+    private List<HotelResponse> crazyClient(LocalDate fromDate, LocalDate toDate, String city, Integer numberOfAdults) {
+        return crazyHotelClient.get(fromDate.atStartOfDay().toInstant(ZoneOffset.UTC), toDate.atStartOfDay().toInstant(ZoneOffset.UTC), city, numberOfAdults)
+                .stream()
+                .map(CrazyHotelMapper::getHotelResponse)
+                .collect(Collectors.toList());
+    }
+
+    private List<HotelResponse> bestClient(LocalDate fromDate, LocalDate toDate, String city, Integer numberOfAdults) {
+        return bestHotelClient.get(fromDate, toDate, city, numberOfAdults)
+                .stream()
+                .map(response -> BestHotelMapper.getHotelResponse(response, Period.between(fromDate, toDate).getDays()))
+                .collect(Collectors.toList());
+    }
+
 }

@@ -18,7 +18,7 @@ public class FakeController {
     public List<BestHotelResponse> testBest(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate toDate,
-            @RequestParam String city,
+            @RequestParam(required = false) String city,
             @RequestParam int numberOfAdults) {
         System.out.println("-----BestHotelApi---------");
         System.out.println(fromDate);
@@ -37,7 +37,7 @@ public class FakeController {
     public List<CrazyHotelResponse> testCrazy(
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Instant fromDate,
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Instant toDate,
-            @RequestParam String city,
+            @RequestParam(required = false) String city,
             @RequestParam int numberOfAdults) {
         System.out.println("-----BestHotelApi---------");
         System.out.println(fromDate);

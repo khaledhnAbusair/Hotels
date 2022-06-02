@@ -18,6 +18,6 @@ public interface CrazyHotelClient {
             @RequestParam(name = "fromDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Instant fromDate,
             @RequestParam(name = "toDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Instant toDate,
             @RequestParam(name = "city",required = false) @Pattern(regexp = "^[A-Z]{3}" ,message = "Invalid city IATA code") String city,
-            @RequestParam(name = "numberOfAdults",required = false) int numberOfAdults
+            @RequestParam(name = "numberOfAdults") int numberOfAdults
     );
 }
