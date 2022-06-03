@@ -27,7 +27,7 @@ public class CrazyHotelMapper {
         HotelResponse hotelResponse = new HotelResponse();
         hotelResponse.setProvider(Providers.CRAZY_HOTELS.getProviderName());
         hotelResponse.setHotelName(response.getHotelName());
-        hotelResponse.setRate(response.getRate());
+        hotelResponse.setRate(response.getRate().length());
         hotelResponse.setAmenities(Stream.of(response.getAmenities().split(",")).collect(Collectors.toList()));
         if (response.getDiscount() > 0)
             hotelResponse.setFare((response.getPrice() * response.getDiscount()) / 100);

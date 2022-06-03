@@ -39,7 +39,7 @@ public class FakeController {
             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Instant toDate,
             @RequestParam(required = false) String city,
             @RequestParam int numberOfAdults) {
-        System.out.println("-----BestHotelApi---------");
+        System.out.println("-----CrazyHotelApi---------");
         System.out.println(fromDate);
         System.out.println(toDate);
         System.out.println(city);
@@ -47,7 +47,7 @@ public class FakeController {
         CrazyHotelResponse crazyHotelResponse = new CrazyHotelResponse();
         crazyHotelResponse.setHotelName("cra");
         crazyHotelResponse.setAmenities("r,m,c");
-        crazyHotelResponse.setRate(3);
+        crazyHotelResponse.setRate("**");
         crazyHotelResponse.setPrice(90);
         crazyHotelResponse.setDiscount(1);
         return List.of(crazyHotelResponse);

@@ -1,34 +1,34 @@
 [
   {
     "hotelName": "A crazy hotel",
-    "rate": 2,
+    "rate": "**",
     "price": 10.02,
     "discount": 2,
     "amenities": "a,b,c,d"
   },
   {
     "hotelName": "B crazy hotel",
-    "rate": 2,
+    "rate": "*",
     "price": 0.02,
     "discount": 5,
     "amenities": "a,b,c,d,f"
   },
   {
     "hotelName": "C crazy hotel",
-    "rate": 4,
+    "rate": "*****",
     "price": 20,
     "discount": 0,
     "amenities": "a,b,c,d"
   },
   {
     "hotelName": "D crazy hotel",
-    "rate": 1,
+    "rate": "**",
     "price": 67,
     "amenities": "a,b,c,d"
   },
   {
     "hotelName": "E crazy hotel",
-    "rate": 5,
+    "rate": "***",
     "price": 100,
     "discount": 8,
     "amenities": "a,b,c,d"
