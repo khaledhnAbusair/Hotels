@@ -6,7 +6,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.validation.constraints.Pattern;
 import java.time.Instant;
 import java.util.List;
 
@@ -17,7 +16,7 @@ public interface CrazyHotelClient {
     List<CrazyHotelResponse> get(
             @RequestParam(name = "fromDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Instant fromDate,
             @RequestParam(name = "toDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Instant toDate,
-            @RequestParam(name = "city",required = false) @Pattern(regexp = "^[A-Z]{3}" ,message = "Invalid city IATA code") String city,
+            @RequestParam(name = "city") String city,
             @RequestParam(name = "numberOfAdults") int numberOfAdults
     );
 }
