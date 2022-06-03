@@ -13,6 +13,7 @@ import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.util.List;
 
+
 @RestController
 @Validated
 public class HotelsController {
@@ -21,6 +22,7 @@ public class HotelsController {
     public HotelsController(ClientUseCase clientUseCase) {
         this.clientUseCase = clientUseCase;
     }
+
 
     @GetMapping("/AvailableHotel")
     public List<HotelResponse> get(@RequestParam @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
