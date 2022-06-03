@@ -4,7 +4,7 @@ import com.futtaim.hotels.client.BestHotelClient;
 import com.futtaim.hotels.mapper.BestHotelMapper;
 import com.futtaim.hotels.model.BestHotelResponse;
 import com.futtaim.hotels.model.HotelResponse;
-import com.futtaim.hotels.service.IService;
+import com.futtaim.hotels.service.BaseHotelService;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class BestHotelService implements IService {
+public class BestHotelService implements BaseHotelService {
     private final BestHotelClient client;
 
     public BestHotelService(BestHotelClient client) {
@@ -21,7 +21,7 @@ public class BestHotelService implements IService {
     }
 
     @Override
-    public List<HotelResponse> load(LocalDate fromDate, LocalDate toDate, String city, Integer numberOfAdults) {
+    public List<HotelResponse> getHotels(LocalDate fromDate, LocalDate toDate, String city, Integer numberOfAdults) {
         return client.get(fromDate, toDate, city, numberOfAdults)
                 .stream()
                 .map(response -> mapper(fromDate, toDate, response))

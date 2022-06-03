@@ -3,7 +3,7 @@ package com.futtaim.hotels.service.impl;
 import com.futtaim.hotels.client.CrazyHotelClient;
 import com.futtaim.hotels.mapper.CrazyHotelMapper;
 import com.futtaim.hotels.model.HotelResponse;
-import com.futtaim.hotels.service.IService;
+import com.futtaim.hotels.service.BaseHotelService;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class CrazyHotelService implements IService {
+public class CrazyHotelService implements BaseHotelService {
 
     private final CrazyHotelClient client;
 
@@ -22,7 +22,7 @@ public class CrazyHotelService implements IService {
     }
 
     @Override
-    public List<HotelResponse> load(LocalDate fromDate, LocalDate toDate, String city, Integer numberOfAdults) {
+    public List<HotelResponse> getHotels(LocalDate fromDate, LocalDate toDate, String city, Integer numberOfAdults) {
         return client.get(getConvertLocalDateToInstant(fromDate), getConvertLocalDateToInstant(toDate), city, numberOfAdults)
                 .stream()
                 .map(CrazyHotelMapper::getHotelResponse)
