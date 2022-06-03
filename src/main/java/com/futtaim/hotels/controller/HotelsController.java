@@ -37,13 +37,12 @@ public class HotelsController {
      * Returns a List of available HotelResponse that can then be show as json.
      * The url argument must specify an absolute {@link @URL}. The name
      * argument is a specifier that is relative to the url argument.
-
      *
      * @param fromDate
      * @param toDate
      * @param city
      * @param numberOfAdults
-     * @param @URL http://localhost:8080/AvailableHotel?fromDate=yyyy-MM-dd&toDate=yyyy-MM-dd&city=IATA code&numberOfAdults=>=0
+     * @param @URL           http://localhost:8080/AvailableHotel?fromDate=yyyy-MM-dd&toDate=yyyy-MM-dd&city=IATA code&numberOfAdults=>=0
      * @return List of available hotels
      */
     @GetMapping("/AvailableHotel")
@@ -60,7 +59,8 @@ public class HotelsController {
 
         List<HotelResponse> responses = new ArrayList<>();
 
-        hotelServices.forEach(hotelService -> responses.addAll(hotelService.getHotels(fromDate, toDate, city, numberOfAdults)));
+        hotelServices.parallelStream().forEach(hotelService -> responses.addAll(hotelService.getHotels(fromDate, toDate, city, numberOfAdults)));
+
 
         return responses.stream()
                 .sorted(Comparator.comparingDouble(HotelResponse::getRate).reversed())

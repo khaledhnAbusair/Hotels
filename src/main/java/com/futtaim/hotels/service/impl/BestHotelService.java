@@ -5,6 +5,9 @@ import com.futtaim.hotels.mapper.BestHotelMapper;
 import com.futtaim.hotels.model.BestHotelResponse;
 import com.futtaim.hotels.model.HotelResponse;
 import com.futtaim.hotels.service.BaseHotelService;
+import feign.FeignException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -20,11 +23,12 @@ import java.util.stream.Collectors;
  */
 @Service
 public class BestHotelService implements BaseHotelService {
-
+    private static final Logger LOG = LoggerFactory.getLogger(BestHotelService.class);
     /**
      * The BestHotelClient is an interface responsible for communicate with integration layer.
      */
     private final BestHotelClient client;
+
 
     public BestHotelService(BestHotelClient client) {
         this.client = client;
@@ -44,7 +48,13 @@ public class BestHotelService implements BaseHotelService {
 
     @Override
     public List<HotelResponse> getHotels(LocalDate fromDate, LocalDate toDate, String city, Integer numberOfAdults) {
-        return client.get(fromDate, toDate, city, numberOfAdults)
+        List<BestHotelResponse> list = List.of();
+        try {
+            list = client.get(fromDate, toDate, city, numberOfAdults);
+        } catch (FeignException.FeignClientException e) {
+            LOG.error(e.getLocalizedMessage());
+        }
+        return list
                 .stream()
                 .map(response -> mapper(fromDate, toDate, response))
                 .collect(Collectors.toList());

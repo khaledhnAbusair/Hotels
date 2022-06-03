@@ -2,8 +2,12 @@ package com.futtaim.hotels.service.impl;
 
 import com.futtaim.hotels.client.CrazyHotelClient;
 import com.futtaim.hotels.mapper.CrazyHotelMapper;
+import com.futtaim.hotels.model.CrazyHotelResponse;
 import com.futtaim.hotels.model.HotelResponse;
 import com.futtaim.hotels.service.BaseHotelService;
+import feign.FeignException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -20,7 +24,7 @@ import java.util.stream.Collectors;
  */
 @Service
 public class CrazyHotelService implements BaseHotelService {
-
+    private static final Logger LOG = LoggerFactory.getLogger(CrazyHotelService.class);
     /**
      * The CrazyHotelClient is an interface responsible for communicate with integration layer.
      */
@@ -42,7 +46,13 @@ public class CrazyHotelService implements BaseHotelService {
      */
     @Override
     public List<HotelResponse> getHotels(LocalDate fromDate, LocalDate toDate, String city, Integer numberOfAdults) {
-        return client.get(getConvertLocalDateToInstant(fromDate), getConvertLocalDateToInstant(toDate), city, numberOfAdults)
+        List<CrazyHotelResponse> list = List.of();
+        try {
+            list = client.get(getConvertLocalDateToInstant(fromDate), getConvertLocalDateToInstant(toDate), city, numberOfAdults);
+        } catch (FeignException.FeignClientException e) {
+            LOG.error(e.getLocalizedMessage());
+        }
+        return list
                 .stream()
                 .map(CrazyHotelMapper::getHotelResponse)
                 .collect(Collectors.toList());
