@@ -12,13 +12,35 @@ import java.time.Period;
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * The BestHotelService class responsible for communication with integration layer
+ *
+ * @author Khaled Absauir
+ * @version 1.0
+ */
 @Service
 public class BestHotelService implements BaseHotelService {
+
+    /**
+     * The BestHotelClient is an interface responsible for communicate with integration layer.
+     */
     private final BestHotelClient client;
 
     public BestHotelService(BestHotelClient client) {
         this.client = client;
     }
+
+
+    /**
+     * Returns a list of hotel response.
+     * When this applet attempts to get BestHotels Response.
+     *
+     * @param fromDate
+     * @param toDate
+     * @param city
+     * @param numberOfAdults
+     * @return List<HotelResponse>
+     */
 
     @Override
     public List<HotelResponse> getHotels(LocalDate fromDate, LocalDate toDate, String city, Integer numberOfAdults) {
@@ -28,6 +50,12 @@ public class BestHotelService implements BaseHotelService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * @param fromDate
+     * @param toDate
+     * @param response
+     * @return
+     */
     private HotelResponse mapper(LocalDate fromDate, LocalDate toDate, BestHotelResponse response) {
         return BestHotelMapper.getHotelResponse(response, Period.between(fromDate, toDate).getDays());
     }

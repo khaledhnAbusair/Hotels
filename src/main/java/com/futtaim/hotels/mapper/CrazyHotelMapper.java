@@ -7,8 +7,22 @@ import com.futtaim.hotels.model.HotelResponse;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+/**
+ * The CrazyHotelMapper class responsible for convert from CrazyHotelResponse to HotelResponse
+ *
+ * @author Khaled Absauir
+ * @version 1.0
+ */
 public class CrazyHotelMapper {
 
+
+    /**
+     * Returns a HotelResponse.
+     * This method always returns HotelResponse,When this applet attempts to convert from  crazy hotel response to  hotel response
+     *
+     * @param response
+     * @return
+     */
     public static HotelResponse getHotelResponse(CrazyHotelResponse response) {
         HotelResponse hotelResponse = new HotelResponse();
         hotelResponse.setProvider(Providers.CRAZY_HOTELS.getProviderName());

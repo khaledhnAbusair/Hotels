@@ -33,6 +33,19 @@ public class HotelsController {
         this.hotelServices = hotelServices;
     }
 
+    /**
+     * Returns a List of available HotelResponse that can then be show as json.
+     * The url argument must specify an absolute {@link @URL}. The name
+     * argument is a specifier that is relative to the url argument.
+
+     *
+     * @param fromDate
+     * @param toDate
+     * @param city
+     * @param numberOfAdults
+     * @param @URL http://localhost:8080/AvailableHotel?fromDate=yyyy-MM-dd&toDate=yyyy-MM-dd&city=IATA code&numberOfAdults=>=0
+     * @return List of available hotels
+     */
     @GetMapping("/AvailableHotel")
     public List<HotelResponse> get(@RequestParam @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
                                    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fromDate,
