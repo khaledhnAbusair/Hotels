@@ -1,4 +1,4 @@
-package com.futtaim.hotels;
+package com.maf.hotels;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

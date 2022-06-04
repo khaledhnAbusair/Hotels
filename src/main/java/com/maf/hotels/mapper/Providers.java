@@ -1,4 +1,4 @@
-package com.futtaim.hotels.mapper;
+package com.maf.hotels.mapper;
 
 /**
  * The Providers enum responsible for adding providers name

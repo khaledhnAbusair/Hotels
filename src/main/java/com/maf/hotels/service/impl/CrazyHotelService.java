@@ -1,13 +1,13 @@
-package com.futtaim.hotels.service.impl;
+package com.maf.hotels.service.impl;
 
-import com.futtaim.hotels.client.CrazyHotelClient;
-import com.futtaim.hotels.mapper.CrazyHotelMapper;
-import com.futtaim.hotels.model.CrazyHotelResponse;
-import com.futtaim.hotels.model.HotelResponse;
-import com.futtaim.hotels.service.BaseHotelService;
-import feign.FeignException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.maf.hotels.client.CrazyHotelClient;
+import com.maf.hotels.mapper.CrazyHotelMapper;
+import com.maf.hotels.model.CrazyHotelResponse;
+import com.maf.hotels.model.HotelResponse;
+import com.maf.hotels.model.RequestParams;
+import com.maf.hotels.service.BaseHotelService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -23,34 +23,28 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class CrazyHotelService implements BaseHotelService {
-    private static final Logger LOG = LoggerFactory.getLogger(CrazyHotelService.class);
     /**
      * The CrazyHotelClient is an interface responsible for communicate with integration layer.
      */
     private final CrazyHotelClient client;
 
-    public CrazyHotelService(CrazyHotelClient client) {
-        this.client = client;
-    }
-
     /**
      * Returns a list of hotel response.
      * When this applet attempts to get CrazyHotels Response.
      *
-     * @param fromDate
-     * @param toDate
-     * @param city
-     * @param numberOfAdults
+     * @param params RequestParams
      * @return List<HotelResponse>
      */
     @Override
-    public List<HotelResponse> getHotels(LocalDate fromDate, LocalDate toDate, String city, Integer numberOfAdults) {
+    public List<HotelResponse> getHotels(RequestParams params) {
         List<CrazyHotelResponse> list = List.of();
         try {
-            list = client.get(getConvertLocalDateToInstant(fromDate), getConvertLocalDateToInstant(toDate), city, numberOfAdults);
-        } catch (FeignException.FeignClientException e) {
-            LOG.error(e.getLocalizedMessage());
+            list = client.get(getConvertLocalDateToInstant(params.getFromDate()), getConvertLocalDateToInstant(params.getToDate()), params.getCity(), params.getNumberOfAdults());
+        } catch (Exception e) {
+            log.error(e.getLocalizedMessage());
         }
         return list
                 .stream()

@@ -1,8 +1,11 @@
-package com.futtaim.hotels.controller;
+package com.maf.hotels.controller;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.futtaim.hotels.model.HotelResponse;
-import com.futtaim.hotels.service.BaseHotelService;
+import com.maf.hotels.model.HotelResponse;
+import com.maf.hotels.model.RequestParams;
+import com.maf.hotels.service.BaseHotelService;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,13 +28,11 @@ import java.util.stream.Collectors;
  */
 @RestController
 @Validated
+@RequiredArgsConstructor
+@Slf4j
 public class HotelsController {
 
     private final List<BaseHotelService> hotelServices;
-
-    public HotelsController(List<BaseHotelService> hotelServices) {
-        this.hotelServices = hotelServices;
-    }
 
     /**
      * Returns a List of available HotelResponse that can then be show as json.
@@ -56,10 +57,11 @@ public class HotelsController {
 
                                    @RequestParam int numberOfAdults) {
 
-
+        log.info("inside get available hotels ...");
         List<HotelResponse> responses = new ArrayList<>();
 
-        hotelServices.parallelStream().forEach(hotelService -> responses.addAll(hotelService.getHotels(fromDate, toDate, city, numberOfAdults)));
+        RequestParams requestParams = RequestParams.builder().fromDate(fromDate).toDate(toDate).city(city).numberOfAdults(numberOfAdults).build();
+        hotelServices.parallelStream().forEach(hotelService -> responses.addAll(hotelService.getHotels(requestParams)));
 
 
         return responses.stream()

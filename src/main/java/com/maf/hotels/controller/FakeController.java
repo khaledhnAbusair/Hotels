@@ -1,7 +1,7 @@
-package com.futtaim.hotels.controller;
+package com.maf.hotels.controller;
 
-import com.futtaim.hotels.model.BestHotelResponse;
-import com.futtaim.hotels.model.CrazyHotelResponse;
+import com.maf.hotels.model.BestHotelResponse;
+import com.maf.hotels.model.CrazyHotelResponse;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;

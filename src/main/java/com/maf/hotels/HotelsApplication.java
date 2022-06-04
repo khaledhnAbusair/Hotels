@@ -1,4 +1,4 @@
-package com.futtaim.hotels;
+package com.maf.hotels;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

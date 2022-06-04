@@ -1,6 +1,6 @@
-package com.futtaim.hotels.client;
+package com.maf.hotels.client;
 
-import com.futtaim.hotels.model.BestHotelResponse;
+import com.maf.hotels.model.BestHotelResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,5 +1,6 @@
-package com.futtaim.hotels.model;
+package com.maf.hotels.model;
 
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,4 +14,5 @@ public class BestHotelResponse {
     private double hotelFare;
     private double hotelRate;
     private String roomAmenities;
+
 }

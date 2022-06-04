@@ -1,8 +1,8 @@
-package com.futtaim.hotels.mapper;
+package com.maf.hotels.mapper;
 
 
-import com.futtaim.hotels.model.CrazyHotelResponse;
-import com.futtaim.hotels.model.HotelResponse;
+import com.maf.hotels.model.CrazyHotelResponse;
+import com.maf.hotels.model.HotelResponse;
 
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -14,7 +14,6 @@ import java.util.stream.Stream;
  * @version 1.0
  */
 public class CrazyHotelMapper {
-
 
     /**
      * Returns a HotelResponse.

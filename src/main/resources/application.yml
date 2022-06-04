@@ -1,0 +1,9 @@
+best:
+    hotel:
+        url: localhost:8080
+crazy:
+    hotel:
+        url: localhost:8080
+springdoc:
+    swagger-ui:
+        path: /swagger-ui.html

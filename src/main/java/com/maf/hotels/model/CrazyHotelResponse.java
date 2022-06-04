@@ -1,4 +1,4 @@
-package com.futtaim.hotels.model;
+package com.maf.hotels.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

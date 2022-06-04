@@ -1,13 +1,14 @@
-package com.futtaim.hotels.service.impl;
+package com.maf.hotels.service.impl;
 
-import com.futtaim.hotels.client.BestHotelClient;
-import com.futtaim.hotels.mapper.BestHotelMapper;
-import com.futtaim.hotels.model.BestHotelResponse;
-import com.futtaim.hotels.model.HotelResponse;
-import com.futtaim.hotels.service.BaseHotelService;
+import com.maf.hotels.client.BestHotelClient;
+import com.maf.hotels.mapper.BestHotelMapper;
+import com.maf.hotels.model.BestHotelResponse;
+import com.maf.hotels.model.HotelResponse;
+import com.maf.hotels.model.RequestParams;
+import com.maf.hotels.service.BaseHotelService;
 import feign.FeignException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -22,41 +23,33 @@ import java.util.stream.Collectors;
  * @version 1.0
  */
 @Service
+@RequiredArgsConstructor
+@Slf4j
 public class BestHotelService implements BaseHotelService {
-    private static final Logger LOG = LoggerFactory.getLogger(BestHotelService.class);
     /**
      * The BestHotelClient is an interface responsible for communicate with integration layer.
      */
     private final BestHotelClient client;
 
 
-    public BestHotelService(BestHotelClient client) {
-        this.client = client;
-    }
-
-
     /**
      * Returns a list of hotel response.
      * When this applet attempts to get BestHotels Response.
      *
-     * @param fromDate
-     * @param toDate
-     * @param city
-     * @param numberOfAdults
+     * @param params RequestParams
      * @return List<HotelResponse>
      */
-
     @Override
-    public List<HotelResponse> getHotels(LocalDate fromDate, LocalDate toDate, String city, Integer numberOfAdults) {
+    public List<HotelResponse> getHotels(RequestParams params) {
         List<BestHotelResponse> list = List.of();
         try {
-            list = client.get(fromDate, toDate, city, numberOfAdults);
-        } catch (FeignException.FeignClientException e) {
-            LOG.error(e.getLocalizedMessage());
+            list = client.get(params.getFromDate(), params.getToDate(), params.getCity(), params.getNumberOfAdults());
+        } catch (Exception e) {
+            log.error(e.getLocalizedMessage());
         }
         return list
                 .stream()
-                .map(response -> mapper(fromDate, toDate, response))
+                .map(response -> mapper(params.getFromDate(), params.getToDate(), response))
                 .collect(Collectors.toList());
     }
 

@@ -1,8 +1,8 @@
-package com.futtaim.hotels.mapper;
+package com.maf.hotels.mapper;
 
 
-import com.futtaim.hotels.model.BestHotelResponse;
-import com.futtaim.hotels.model.HotelResponse;
+import com.maf.hotels.model.BestHotelResponse;
+import com.maf.hotels.model.HotelResponse;
 
 import java.text.DecimalFormat;
 import java.util.stream.Collectors;
