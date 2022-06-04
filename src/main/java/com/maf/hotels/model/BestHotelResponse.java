@@ -1,6 +1,6 @@
 package com.maf.hotels.model;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -14,5 +14,7 @@ public class BestHotelResponse {
     private double hotelFare;
     private double hotelRate;
     private String roomAmenities;
+    @JsonIgnore
+    private int days;
 
 }

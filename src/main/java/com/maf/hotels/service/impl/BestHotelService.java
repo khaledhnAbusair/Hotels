@@ -1,17 +1,15 @@
 package com.maf.hotels.service.impl;
 
 import com.maf.hotels.client.BestHotelClient;
-import com.maf.hotels.mapper.BestHotelMapper;
+import com.maf.hotels.mapper.BestMapper;
 import com.maf.hotels.model.BestHotelResponse;
 import com.maf.hotels.model.HotelResponse;
 import com.maf.hotels.model.RequestParams;
 import com.maf.hotels.service.BaseHotelService;
-import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,19 +45,13 @@ public class BestHotelService implements BaseHotelService {
         } catch (Exception e) {
             log.error(e.getLocalizedMessage());
         }
-        return list
-                .stream()
-                .map(response -> mapper(params.getFromDate(), params.getToDate(), response))
-                .collect(Collectors.toList());
+
+        return list.stream().map(response -> getResponse(params, response)).collect(Collectors.toList());
     }
 
-    /**
-     * @param fromDate
-     * @param toDate
-     * @param response
-     * @return
-     */
-    private HotelResponse mapper(LocalDate fromDate, LocalDate toDate, BestHotelResponse response) {
-        return BestHotelMapper.getHotelResponse(response, Period.between(fromDate, toDate).getDays());
+    private HotelResponse getResponse(RequestParams params, BestHotelResponse response) {
+        response.setDays(Period.between(params.getFromDate(), params.getToDate()).getDays());
+        return BestMapper.INSTANCE.map(response);
     }
+
 }

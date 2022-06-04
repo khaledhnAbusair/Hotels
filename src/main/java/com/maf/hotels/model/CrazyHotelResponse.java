@@ -14,4 +14,5 @@ public class CrazyHotelResponse {
     private double discount;
     private double price;
     private String rate;
+
 }
