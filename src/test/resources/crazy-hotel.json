@@ -1,0 +1,7 @@
+{
+  "hotelName": "A crazy hotel",
+  "rate": "***",
+  "price": 10.02,
+  "discount": 2,
+  "amenities": "a,b,c,d"
+}

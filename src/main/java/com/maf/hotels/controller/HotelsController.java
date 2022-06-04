@@ -39,11 +39,11 @@ public class HotelsController {
      * The url argument must specify an absolute {@link @URL}. The name
      * argument is a specifier that is relative to the url argument.
      *
-     * @param fromDate
-     * @param toDate
-     * @param city
-     * @param numberOfAdults
-     * @param @URL           http://localhost:8080/AvailableHotel?fromDate=yyyy-MM-dd&toDate=yyyy-MM-dd&city=IATA code&numberOfAdults=>=0
+     * @param fromDate       pass from date as request param
+     * @param toDate         pass to date as request param
+     * @param city           pass city code (IATA) as request param
+     * @param numberOfAdults pass adults number as request param
+     * @param url            @URL <a href="http://localhost:8080/AvailableHotel?fromDate=yyyy-MM-dd&toDate=yyyy-MM-dd&city=IATA">...</a> code&numberOfAdults=>=0
      * @return List of available hotels
      */
     @GetMapping("/AvailableHotel")

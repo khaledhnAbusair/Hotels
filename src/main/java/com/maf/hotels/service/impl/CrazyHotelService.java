@@ -2,7 +2,6 @@ package com.maf.hotels.service.impl;
 
 import com.maf.hotels.client.CrazyHotelClient;
 import com.maf.hotels.mapper.CrazyMapper;
-import com.maf.hotels.model.CrazyHotelResponse;
 import com.maf.hotels.model.HotelResponse;
 import com.maf.hotels.model.RequestParams;
 import com.maf.hotels.service.BaseHotelService;
@@ -40,24 +39,23 @@ public class CrazyHotelService implements BaseHotelService {
      */
     @Override
     public List<HotelResponse> getHotels(RequestParams params) {
-        List<CrazyHotelResponse> list = List.of();
         try {
-            list = client.get(
-                    getLocalDate(params.getFromDate()),
-                    getLocalDate(params.getToDate()),
-                    params.getCity(),
-                    params.getNumberOfAdults());
+            return client.get(getLocalDate(params.getFromDate()),
+                            getLocalDate(params.getToDate()),
+                            params.getCity(),
+                            params.getNumberOfAdults())
+                    .stream().map(CrazyMapper.INSTANCE::map).collect(Collectors.toList());
         } catch (Exception e) {
             log.error(e.getLocalizedMessage());
         }
-        return list.stream().map(CrazyMapper.INSTANCE::map).collect(Collectors.toList());
+        return List.of();
     }
 
     /**
-     * @param fromDate
-     * @return
+     * @param localDate convert from and to date to Instant
+     * @return Instant
      */
-    private Instant getLocalDate(LocalDate fromDate) {
-        return fromDate.atStartOfDay().toInstant(ZoneOffset.UTC);
+    private Instant getLocalDate(LocalDate localDate) {
+        return localDate.atStartOfDay().toInstant(ZoneOffset.UTC);
     }
 }

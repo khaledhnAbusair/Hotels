@@ -34,21 +34,30 @@ public class BestHotelService implements BaseHotelService {
      * Returns a list of hotel response.
      * When this applet attempts to get BestHotels Response.
      *
-     * @param params RequestParams
+     * @param params RequestParameter
      * @return List<HotelResponse>
      */
     @Override
     public List<HotelResponse> getHotels(RequestParams params) {
-        List<BestHotelResponse> list = List.of();
         try {
-            list = client.get(params.getFromDate(), params.getToDate(), params.getCity(), params.getNumberOfAdults());
+            return client.get(params.getFromDate(),
+                            params.getToDate(),
+                            params.getCity(),
+                            params.getNumberOfAdults())
+                    .stream()
+                    .map(response -> getResponse(params, response))
+                    .collect(Collectors.toList());
         } catch (Exception e) {
             log.error(e.getLocalizedMessage());
         }
-
-        return list.stream().map(response -> getResponse(params, response)).collect(Collectors.toList());
+        return List.of();
     }
 
+    /**
+     * @param params   to get from and to date to get different days between them
+     * @param response to map response
+     * @return HotelResponse
+     */
     private HotelResponse getResponse(RequestParams params, BestHotelResponse response) {
         response.setDays(Period.between(params.getFromDate(), params.getToDate()).getDays());
         return BestMapper.INSTANCE.map(response);
