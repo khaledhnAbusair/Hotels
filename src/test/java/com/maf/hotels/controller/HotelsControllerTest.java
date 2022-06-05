@@ -68,7 +68,6 @@ class HotelsControllerTest {
         Mockito.when(crazyHotelClient.get(toInstant(fromDate), toInstant(toDate), city, 1)).thenReturn(crazyHotelResponses);
         Mockito.when(bestHotelClient.get(fromDate, toDate, city, 1)).thenReturn(bestHotelResponses);
 
-
         this.mockMvc.perform(get("/AvailableHotel")
                         .param("fromDate", "2018-03-29")
                         .param("toDate", "2018-04-05")
@@ -97,7 +96,6 @@ class HotelsControllerTest {
         Mockito.when(crazyHotelClient.get(toInstant(fromDate), toInstant(toDate), city, 1)).thenThrow(FeignException.FeignClientException.class);
         Mockito.when(bestHotelClient.get(fromDate, toDate, city, 1)).thenReturn(bestHotelResponses);
 
-
         this.mockMvc.perform(get("/AvailableHotel")
                         .param("fromDate", "2018-03-29")
                         .param("toDate", "2018-04-05")
@@ -118,6 +116,27 @@ class HotelsControllerTest {
                 }).andDo(print());
     }
 
+    @Test
+    @SneakyThrows
+    void whenCallAvailableHotelWithValidParamsAndErrorInAllProviderThenReturnEmptyListO() {
+        Mockito.when(crazyHotelClient.get(toInstant(fromDate), toInstant(toDate), city, 1)).thenThrow(FeignException.FeignClientException.class);
+        Mockito.when(bestHotelClient.get(fromDate, toDate, city, 1)).thenThrow(FeignException.FeignClientException.class);
+
+        this.mockMvc.perform(get("/AvailableHotel")
+                        .param("fromDate", "2018-03-29")
+                        .param("toDate", "2018-04-05")
+                        .param("city", city)
+                        .param("numberOfAdults", "1"))
+
+                .andExpect(status().isOk())
+                .andExpect(result -> {
+                    String content = result.getResponse().getContentAsString();
+                    Assertions.assertNotNull(content);
+                    List<HotelResponse> hotelResponses = new Gson().fromJson(content, new TypeToken<List<HotelResponse>>() {
+                    }.getType());
+                    Assertions.assertEquals(0, hotelResponses.size());
+                }).andDo(print());
+    }
 
     @Test
     @SneakyThrows
