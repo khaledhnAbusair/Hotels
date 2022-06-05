@@ -7,6 +7,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -33,9 +34,10 @@ public interface CrazyMapper {
     }
 
     default double calculateFare(double price, double discount) {
-        if (discount > 0)
-            return (price * discount) / 100;
-        else
-            return price;
+        if (discount > 0) {
+            double disc = (price * discount) / 100;
+            return Double.parseDouble(new DecimalFormat("0.00").format(price - disc));
+        } else
+            return Double.parseDouble(new DecimalFormat("0.00").format(price));
     }
 }

@@ -21,7 +21,7 @@ mvn spring-boot:run
 
 ## Spring Rest  with Swagger UI
 
-Shows the list of Endpoints in the current RESTfUl webservice.
+Shows the list of Endpoints in the current RESTFUL webservice.
 
 * [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
 
